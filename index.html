@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.container {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  width: 350px;
+  position: relative;
+}
+
+img {
+  width: 150px;
+  transition: 0.3s ease;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.yes-btn {
+  background: #ff4b7d;
+  color: white;
+}
+
+.no-btn {
+  background: #ddd;
+}
+
+video {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 15px;
+  display: none;
+}
+
+.flower {
+  position: absolute;
+  font-size: 20px;
+  animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-100px); opacity: 1; }
+  100% { transform: translateY(600px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <img id="valImage" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
+  <h2 id="question">Will you be my Valentine? 💖</h2>
+
+  <div class="buttons" id="buttonContainer">
+    <button class="yes-btn" id="yesBtn">Yes 💕</button>
+    <button class="no-btn" id="noBtn">No 😢</button>
+  </div>
+
+  <!-- VIDEO -->
+  <video id="loveVideo" controls>
+    <source src="dominion.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
+const image = document.getElementById("valImage");
+const video = document.getElementById("loveVideo");
+const buttonContainer = document.getElementById("buttonContainer");
+
+let noClicks = 0;
+
+const messages = [
+  "Are you sure? 🥺",
+  "Think again... I'm very cute you know 😔",
+  "Don't break my heart like this 💔",
+  "Last chance o 😭",
+  "You can't escape destiny 😌"
+];
+
+const images = [
+  "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+  "https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif",
+  "https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif",
+  "https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif",
+  "https://media.giphy.com/media/3oriO6qJiXajN0TyDu/giphy.gif"
+];
+
+function finalStage() {
+  question.textContent = "Yaaay! I knew you loved me! 💖🥰";
+  image.style.display = "none";
+  buttonContainer.style.display = "none";
+  video.style.display = "block";
+  video.play();
+  createFlowers();
+}
+
+noBtn.addEventListener("click", () => {
+  if (noClicks < 4) {
+    question.textContent = messages[noClicks];
+    image.src = images[noClicks + 1];
+    noClicks++;
+
+    yesBtn.style.transform = `scale(${1 + noClicks * 0.3})`;
+  } else {
+    yesBtn.style.transform = "scale(2)";
+    finalStage();
+  }
+});
+
+yesBtn.addEventListener("click", () => {
+  finalStage();
+});
+
+function createFlowers() {
+  for (let i = 0; i < 30; i++) {
+    const flower = document.createElement("div");
+    flower.classList.add("flower");
+    flower.innerHTML = "🌸";
+    flower.style.left = Math.random() * window.innerWidth + "px";
+    flower.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(flower);
+  }
+}
+</script>
+
+</body>
+</html>
+
