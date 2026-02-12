@@ -91,7 +91,6 @@ video {
     <button class="no-btn" id="noBtn">No 😢</button>
   </div>
 
-  <!-- VIDEO -->
   <video id="loveVideo" controls>
     <source src="dominion.mp4" type="video/mp4">
   </video>
@@ -103,9 +102,13 @@ const yesBtn = document.getElementById("yesBtn");
 const question = document.getElementById("question");
 const image = document.getElementById("valImage");
 const video = document.getElementById("loveVideo");
-const buttonContainer = document.getElementById("buttonContainer");
 
 let noClicks = 0;
+
+// Disable YES at start
+yesBtn.disabled = true;
+yesBtn.style.opacity = "0.5";
+yesBtn.style.cursor = "not-allowed";
 
 const messages = [
   "Are you sure? 🥺",
@@ -126,27 +129,41 @@ const images = [
 function finalStage() {
   question.textContent = "Yaaay! I knew you loved me! 💖🥰";
   image.style.display = "none";
-  buttonContainer.style.display = "none";
+  document.getElementById("buttonContainer").style.display = "none";
   video.style.display = "block";
   video.play();
   createFlowers();
 }
 
 noBtn.addEventListener("click", () => {
+
   if (noClicks < 4) {
     question.textContent = messages[noClicks];
     image.src = images[noClicks + 1];
     noClicks++;
 
+    // Grow YES button
     yesBtn.style.transform = `scale(${1 + noClicks * 0.3})`;
   } else {
+    // Final stage before enabling YES
+    question.textContent = "Okay fine… now you can click Yes 😌💖";
     yesBtn.style.transform = "scale(2)";
-    finalStage();
+
+    // Enable YES
+    yesBtn.disabled = false;
+    yesBtn.style.opacity = "1";
+    yesBtn.style.cursor = "pointer";
+
+    // Hide NO button
+    noBtn.style.display = "none";
   }
+
 });
 
 yesBtn.addEventListener("click", () => {
-  finalStage();
+  if (!yesBtn.disabled) {
+    finalStage();
+  }
 });
 
 function createFlowers() {
